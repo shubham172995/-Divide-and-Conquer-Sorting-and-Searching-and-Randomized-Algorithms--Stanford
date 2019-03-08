@@ -60,7 +60,7 @@ vector<int> sum(vector<int> a, vector<int> b){
 				res[l2-(l1-i)]=res[l2-(l1-i)]%10;
 			}
 		}
-		for(int i=l2-l1-1; i>0;i--)
+		for(int i=l2-l1-1; i>=0;i--)
 			res[i]=b[i];
 	}
 	else if(l1==l2){
@@ -94,12 +94,10 @@ vector<int> diff(vector<int> a, vector<int> b){
 		res.resize(l2);
 	else res.resize(l1);
 	if(l1==l2){
-		if(a[0]>b[0]){
+		if(a[0]>=b[0]){
 			int carry=0;
 			for(int i=l1-1;i>=0;i--){
-				res[i]=a[i]-b[i];
-				if(carry==0)continue;
-				else res[i]-=1;
+				res[i]=a[i]-b[i]-carry;
 				if(res[i]<0){
 					res[i]+=10;
 					carry=1;
@@ -107,12 +105,10 @@ vector<int> diff(vector<int> a, vector<int> b){
 				else if(res[i]>=0)carry=0;
 			}
 		}
-		if(a[0]<=b[0]){
+		if(a[0]<b[0]){
 			int carry=0;
 			for(int i=l1-1;i>=0;i--){
-				res[i]=b[i]-a[i];
-				if(carry==0)continue;
-				else res[i]-=1;
+				res[i]=b[i]-a[i]-carry;
 				if(res[i]<0){
 					res[i]+=10;
 					carry=1;
@@ -164,7 +160,7 @@ vector<int> diff(vector<int> a, vector<int> b){
 				}
 			}
 		}
-	}
+	}if(carry==1)return diff(b, a);
 	return res;
 }
 
@@ -204,6 +200,9 @@ vector<int> product(vector<int> x, vector<int> y){
 	p3=product(s1, s2);
 	//p2.resize(l*2);
 	p3=diff(p3, p2);
+	for(int i=0;i<p3.size();i++)
+		cout<<p3[i];
+	cout<<endl;
 	p3=diff(p3, p1);
 	int h=p3.size();
 	p3.resize(h+first);
