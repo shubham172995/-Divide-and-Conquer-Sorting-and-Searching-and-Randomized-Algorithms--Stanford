@@ -205,10 +205,15 @@ vector<int> product(vector<int> x, vector<int> y){
 	//p2.resize(l*2);
 	p3=diff(p3, p2);
 	p3=diff(p3, p1);
-	p3.resize(l*2);
-	p3=sum(p3, p2);
+	for(int i=0;i<p3.size();i++)
+		cout<<p3[i];
+	cout<<endl;
+	int h=p3.size();
+	p3.resize(h+first);
+	h=p2.size();
+	p2.resize(h+first*2);
 	p3=sum(p3, p1);
-	return p3;
+	return sum(p3,p2);
 }
 
 int main(){
