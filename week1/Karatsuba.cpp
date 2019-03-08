@@ -4,8 +4,9 @@ using namespace std;
 int equate(string& a, string& b){
 	int n1=a.length();
 	int n2=b.length();
-	if(n1==n2)
+	if(n1==n2){
 		return n1;
+	}
 	else if(n1<n2){
 		int l=n2-n1;
 		string temp="";
@@ -34,10 +35,10 @@ vector<int> sum(vector<int> a, vector<int> b){
 	vector<int> res;
 	int carry=0;
 	if(l1>l2)
-		res.resize(l1+1);
+		res.resize(l1);
 	else if(l2>l1)
-		res.resize(l2+1);
-	else res.resize(l1+1);
+		res.resize(l2);
+	else res.resize(l1);
 	if(l1>l2){
 		for(int i=l2-1;i>=0;i--){
 			res[l1-(l2-i)]=a[l1-(l2-i)]+b[i];
@@ -50,7 +51,7 @@ vector<int> sum(vector<int> a, vector<int> b){
 		for(int i=l1-l2-1; i>0;i--)
 			res[i]=a[i];
 	}
-	else{
+	else if(l2>l1){
 		for(int i=l1-1;i>=0;i--){
 			res[l2-(l1-i)]=b[l2-(l1-i)]+a[i];
 			if(res[l2-(l1-i)]<=9)continue;
@@ -62,9 +63,24 @@ vector<int> sum(vector<int> a, vector<int> b){
 		for(int i=l2-l1-1; i>0;i--)
 			res[i]=b[i];
 	}
+	else if(l1==l2){
+		for(int i=l1-1;i>=0;i--){
+			res[i]=a[i]+b[i]+carry;
+			if(res[i]>9){
+				carry=res[i]/10;
+				res[i]=res[i]%10;
+			}
+		}
+	}
 	if(carry==0)return res;
-	else res[0]=carry;
-	return res;
+	else {
+		int r=res.size();
+		vector<int> r1(r+1);
+		for(int i=1;i<=r;i++)
+			r1[i]=res[i-1];
+		r1[0]=carry;
+		return r1;
+	}
 }
 
 vector<int> diff(vector<int> a, vector<int> b){
@@ -73,10 +89,11 @@ vector<int> diff(vector<int> a, vector<int> b){
 	vector<int> res;
 	int carry=0;
 	if(l1>l2)
-		res.resize(l1+1);
+		res.resize(l1);
 	else if(l2>l1)
-		res.resize(l2+1);
-	else res.resize(l1+1);
+		res.resize(l2);
+	else res.resize(l1);
+	cout<<l1<<" yay "<<l2<<endl;
 	if(l1==l2){
 		if(a[0]>b[0]){
 			int carry=0;
@@ -153,8 +170,20 @@ vector<int> diff(vector<int> a, vector<int> b){
 
 vector<int> product(vector<int> x, vector<int> y){
 	int first, second;
-	int l=x.size();
-	if(l==1){int p=single(x, y);vector<int> g(1);g[0]=p;return g;}
+	int l=y.size();
+	if(l==1){
+		vector<int> g;
+		int p=single(x, y);
+		if(p<=9){
+			g.resize(1);
+			g[0]=p;
+		}
+		else{
+			g.resize(2);
+			g[0]=p/10;
+			g[1]=p%10;
+		}
+		return g;}
 	first=l/2;
 	second=l-first;
 	vector<int> xl(first), xh(second), yl(first), yh(second);
@@ -162,15 +191,20 @@ vector<int> product(vector<int> x, vector<int> y){
 		xl[i]=x[i];
 		yl[i]=y[i];
 	}
-	for(int i=first;i<second;i++){
+	for(int i=first;i<l;i++){
 		xh[i-first]=x[i];
 		yh[i-first]=y[i];
 	}
 	vector<int> p1, p2, p3;
 	p1=product(xl, yl);
 	p2=product(xh, yh);
-	p3=product(sum(xl, xh), sum(yl, yh));
-	p2.resize(l*2);
+	vector<int>s1, s2;
+	s1=sum(xl, xh);
+	s2=sum(yl, yh);
+	p3=product(s1, s2);
+	cout<<p3[0]<<" "<<p3[1]<<endl;
+	//p2.resize(l*2);
+	cout<<p2.size()<<endl;
 	p3=diff(p3, p2);
 	p3=diff(p3, p1);
 	p3.resize(l*2);
