@@ -48,7 +48,7 @@ vector<int> sum(vector<int> a, vector<int> b){
 				res[l1-(l2-i)]=res[l1-(l2-i)]%10;
 			}
 		}
-		for(int i=l1-l2-1; i>0;i--)
+		for(int i=l1-l2-1; i>=0;i--)
 			res[i]=a[i];
 	}
 	else if(l2>l1){
@@ -205,15 +205,21 @@ vector<int> product(vector<int> x, vector<int> y){
 	//p2.resize(l*2);
 	p3=diff(p3, p2);
 	p3=diff(p3, p1);
+	int h=p3.size();
+	p3.resize(h+first);
+	h=p1.size();
+	p1.resize(h+first*2);
 	for(int i=0;i<p3.size();i++)
 		cout<<p3[i];
 	cout<<endl;
-	int h=p3.size();
-	p3.resize(h+first);
-	h=p2.size();
-	p2.resize(h+first*2);
-	p3=sum(p3, p1);
-	return sum(p3,p2);
+	for(int i=0;i<p2.size();i++)
+		cout<<p2[i];
+	cout<<endl;
+	for(int i=0;i<p1.size();i++)
+		cout<<p1[i];
+	cout<<endl;
+	p3=sum(p3, p2);
+	return sum(p3,p1);
 }
 
 int main(){
