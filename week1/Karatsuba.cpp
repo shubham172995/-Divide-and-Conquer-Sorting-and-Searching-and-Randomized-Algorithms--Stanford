@@ -93,7 +93,6 @@ vector<int> diff(vector<int> a, vector<int> b){
 	else if(l2>l1)
 		res.resize(l2);
 	else res.resize(l1);
-	cout<<l1<<" yay "<<l2<<endl;
 	if(l1==l2){
 		if(a[0]>b[0]){
 			int carry=0;
@@ -166,6 +165,7 @@ vector<int> diff(vector<int> a, vector<int> b){
 			}
 		}
 	}
+	return res;
 }
 
 vector<int> product(vector<int> x, vector<int> y){
@@ -202,9 +202,7 @@ vector<int> product(vector<int> x, vector<int> y){
 	s1=sum(xl, xh);
 	s2=sum(yl, yh);
 	p3=product(s1, s2);
-	cout<<p3[0]<<" "<<p3[1]<<endl;
 	//p2.resize(l*2);
-	cout<<p2.size()<<endl;
 	p3=diff(p3, p2);
 	p3=diff(p3, p1);
 	p3.resize(l*2);
@@ -224,6 +222,7 @@ int main(){
 	}
 	vector<int> res=product(x, y);
 	for(int i=0;i<res.size(); i++)
-	cout<<res[i]<<endl;
+	cout<<res[i];
+	cout<<endl;
 	return 0;
 }
